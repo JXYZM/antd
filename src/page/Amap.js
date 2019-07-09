@@ -1,11 +1,12 @@
 import { Map, MouseTool, Marker, Polyline } from 'react-amap';
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Button, Card, Row, Col, Tabs, Icon, Tooltip, List, Layout } from 'antd';
+import { withRouter } from 'dva/router';
+import { Button, Card, Row, Col, Tabs, Icon, Tooltip, List, Layout, Form, Descriptions } from 'antd';
 import { InputNumber, Input } from 'antd';
 
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1282563_nwcjjx3mfg.js',
+  scriptUrl: '//at.alicdn.com/t/font_1282563_kns8e1am00d.js',
 });
 const { TabPane } = Tabs;
 const { Header, Content, Footer } = Layout;
@@ -288,42 +289,6 @@ export default class Amap extends Component {
     });
   }
 
-  // drawCircle() {
-  //   if (this.tool) {
-  //     this.tool.circle();
-  //     this.setState({
-  //       what: '准备绘制圆形'
-  //     });
-  //   }
-  // }
-
-  // drawRectangle() {
-  //   if (this.tool) {
-  //     this.tool.rectangle();
-  //     this.setState({
-  //       what: '准备绘制多边形（矩形）'
-  //     });
-  //   }
-  // }
-
-  // drawMarker() {
-  //   if (this.tool) {
-  //     this.tool.marker();
-  //     this.setState({
-  //       what: '准备绘制坐标点'
-  //     });
-  //   }
-  // }
-
-  // drawPolygon() {
-  //   if (this.tool) {
-  //     this.tool.polygon();
-  //     this.setState({
-  //       what: '准备绘制多边形'
-  //     });
-  //   }
-  // }
-
   setStart() {
     this.setState({
       choose_start: true,
@@ -391,15 +356,13 @@ export default class Amap extends Component {
     return (
       <div>
         <Layout className="layout">
-          <Header>
-            <div className="logo" />
+          <Header >
+            <div className="logo" style={{ position: 'absolute', left: 50 ,textAlign:'left', color: 'white', fontSize: 24  }} >
+              <div><IconFont style={{padding: '20px'}} type='icon-wurenji-copy' />{`无人机飞行控制平台`}</div>
+            </div>
           </Header>
           <Content style={{ padding: 50 }}>
             <div style={{ background: '#fff', padding: 20, minHeight: 500 }}>
-              {/* <Card
-                // title="高德地图Demo"
-                style={{ marginTop: '50px', padding: '30px', width: '100%' }}
-              > */}
               <div>
                 <Row type="flex" justify="space-around" align="middle">
                   <div style={{ position: 'relative', width: '95%', height: '500px', padding: '20px 0 20px 20px' }}>
@@ -447,7 +410,7 @@ export default class Amap extends Component {
                       </List.Item>
                       <List.Item>
                         <Tooltip placement="right" title="获取结果">
-                          <a onClick={(event) => this.props.getRoute(event)}><IconFont type="icon-xianshi" /></a>
+                          <a onClick={(event) => this.props.getRoute(event)}><IconFont type="icon-shuaxin1" /></a>
                         </Tooltip>
                       </List.Item>
                       <List.Item>
@@ -459,27 +422,53 @@ export default class Amap extends Component {
                   </div>
                 </Row>
               </div>
-              <div>
-                <Tabs defaultActiveKey="1">
-                  <TabPane tab="设置无人机数目" key="1">
+              <div style={{position: 'relative',left: '10%',width: '80%',}}>
+                <Tabs defaultActiveKey="1" 
+                style={{textAlign: 'center'}}
+                >
+                  <TabPane tab="飞行器信息控制面板" key="1">
                     <div>
-                      <font size='3'> 飞行器信息控制面板 </font>
-                      <hr />
-                      <p> 设置飞行器数目 </p>
-                      <InputNumber min={1} max={5} defaultValue={3} onChange={(value) => this.props.numChangeFlight(value)} />
+                      {/* <font size='3'> 飞行器信息控制面板 </font>
+                      <hr /> */}
+                      {/* <p> 设置飞行器数目 </p> */}
+                      {`飞行器数目 : `}<InputNumber min={1} max={5} defaultValue={3} onChange={(value) => this.props.numChangeFlight(value)} />
+                      {/* <Form><Form.Item label="飞行器数目">
+                        {this.props.form.getFieldDecorator('num',{
+                          rules: [{
+                            required:  true,
+                          }],
+                          initialValue: 3
+                        })(<InputNumber min={1} max={5} defaultValue={3} onChange={(value) => this.props.numChangeFlight(value)} />)}  
+                      </Form.Item></Form> */}
                     </div>
                   </TabPane>
-                  <TabPane tab="设置飞行高度" key="2">
+                  <TabPane tab="飞行高度控制面板" key="2">
                     <div>
-                      <font size='3'> 飞行高度控制面板 </font>
-                      <hr />
-                      <p> 设置飞行高度 </p>
-                      {/* <InputNumber min={1} max={5} defaultValue={3} onChange={(value) => this.props.numChange(value)}/> */}
-                      <Input style={{ width: 200 }} onChange={(e) => this.props.heightChange(e)} />
+                      {/* <font size='3'> 飞行高度控制面板 </font>
+                      <hr /> */}
+                      {/* <p> 设置飞行高度 : </p> */}
+                      {`飞行高度 : `} <Input style={{ width: 200 }} onChange={(e) => this.props.heightChange(e)} />{` m`}
                     </div>
                   </TabPane>
-                  <TabPane tab="实时信息" key="3">
-                    <div>
+                  <TabPane tab="信息展示面板" key="3">
+                    <div style={{position: 'relative',left: '10%',width: '80%'}}>
+                      <Descriptions bordered column={2}
+                      // title="飞行器信息"
+                      >
+                        <Descriptions.Item label="飞行器数目">{this.props.flightInformation.num}</Descriptions.Item>
+                      {/* </Descriptions>
+                      <Descriptions title="高度信息"> */}
+                        <Descriptions.Item label="高度">{this.props.heightInformation.h}</Descriptions.Item>
+                      {/* </Descriptions>
+                      <Descriptions title="地点信息"> */}
+                        <Descriptions.Item label="起点">{this.props.pointInformation.start}</Descriptions.Item>
+                        <Descriptions.Item label="经过点">{this.array2string(this.props.pointInformation.pass)}</Descriptions.Item>
+                      {/* </Descriptions>
+                      <Descriptions title="路径信息"> */}
+                        <Descriptions.Item label="路径">{this.array2string(this.props.routeInformation)}</Descriptions.Item>
+                      </Descriptions>
+                    </div>
+                    {/* <div>
                       <font size='4'> 信息展示面板</font>
                       <hr />
                       <font size='3'> 飞行器信息</font>
@@ -498,10 +487,10 @@ export default class Amap extends Component {
                       <hr />
                       <font size='3'> 路径信息</font>
                       <br />
-                      <font size='3'> 路径：{this.array2string(this.props.routeInformation)}</font>
+                      <font size='3'> 路径：{this.array2string(this.props.routeInformation)}</font> */}
                       {/* <InputNumber min={1} max={5} defaultValue={3} onChange={(value) => this.props.numChange(value)}/> */}
 
-                    </div>
+                    {/* </div> */}
                   </TabPane>
                 </Tabs>
               </div>
@@ -513,3 +502,7 @@ export default class Amap extends Component {
     )
   }
 }
+
+// const WrappedAmapForm = Form.create()(Amap);
+
+// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WrappedAmapForm));
