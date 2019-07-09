@@ -365,7 +365,7 @@ export default class Amap extends Component {
             <div style={{ background: '#fff', padding: 20, minHeight: 500 }}>
               <div>
                 <Row type="flex" justify="space-around" align="middle">
-                  <div style={{ position: 'relative', width: '95%', height: '500px', padding: '20px 0 20px 20px' }}>
+                  <div style={{ position: 'relative',left: '0', width: '90%', height: '500px', padding: '20px 0 20px 20px' }}>
                     <Map
                       events={this.amapEvents}
                       plugins={this.mapPlugins}
