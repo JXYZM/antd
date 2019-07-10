@@ -380,7 +380,7 @@ export default class Amap extends Component {
                         extData={{ key: item.key }}
                         clickable
                         events={this.markerEvents}
-                        //topWhenClick={true}
+                      //topWhenClick={true}
                       // visible={this.state.visible}
                       />)}
                       {this.state.path.map((item) => <Polyline
@@ -456,20 +456,16 @@ export default class Amap extends Component {
                   </TabPane>
                   <TabPane tab="信息展示面板" key="3">
                     <div style={{ position: 'relative', left: '10%', width: '80%' }}>
-                      <Descriptions bordered column={2}
+                      <Descriptions
+                        bordered
+                        column={2}
                       // title="飞行器信息"
                       >
                         <Descriptions.Item label="飞行器数目">{this.props.flightInformation.num}</Descriptions.Item>
-                        {/* </Descriptions>
-                      <Descriptions title="高度信息"> */}
                         <Descriptions.Item label="高度">{this.props.heightInformation.h}</Descriptions.Item>
-                        {/* </Descriptions>
-                      <Descriptions title="地点信息"> */}
                         <Descriptions.Item label="起点">{this.props.pointInformation.start}</Descriptions.Item>
-                        <Descriptions.Item label="经过点">{this.array2string(this.props.pointInformation.pass)}</Descriptions.Item>
-                        {/* </Descriptions>
-                      <Descriptions title="路径信息"> */}
-                        <Descriptions.Item label="路径">{this.array2string(this.props.routeInformation)}</Descriptions.Item>
+                        <Descriptions.Item label="经过点"><div style={{ wordBreak: 'break-all' }}>{this.array2string(this.props.pointInformation.pass)}</div></Descriptions.Item>
+                        <Descriptions.Item label="路径"><div style={{ wordBreak: 'break-all' }}>{this.array2string(this.props.routeInformation)}</div></Descriptions.Item>
                       </Descriptions>
                     </div>
                     {/* <div>
