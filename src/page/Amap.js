@@ -213,6 +213,7 @@ export default class Amap extends Component {
       choose_start: false,
       choose_pass: false,
       path: [],
+      color: ['yellow', 'brown', 'green', 'red', 'blue'],
     };
     this.amapEvents = {
       created: (mapInstance) => {
@@ -305,7 +306,7 @@ export default class Amap extends Component {
 
   display() {
     let temp = []
-    //let count_out = 0
+    let count_out = 0
     for (let a of this.props.routeInformation) {
       let temptemp = []
       //let count_in = 0
@@ -318,8 +319,8 @@ export default class Amap extends Component {
         //count_in += 1
       }
       //console.log(temptemp)
-      temp = temp.concat([temptemp])
-      //count_out += 1
+      temp = temp.concat({ route: temptemp, key: count_out })
+      count_out += 1
       //console.log(temp)
     }
     this.setState({
@@ -357,15 +358,15 @@ export default class Amap extends Component {
       <div>
         <Layout className="layout">
           <Header >
-            <div className="logo" style={{ position: 'absolute', left: 50 ,textAlign:'left', color: 'white', fontSize: 24  }} >
-              <div><IconFont style={{padding: '20px'}} type='icon-wurenji-copy' />{`无人机飞行控制平台`}</div>
+            <div className="logo" style={{ position: 'absolute', left: 50, textAlign: 'left', color: 'white', fontSize: 24 }} >
+              <div><IconFont style={{ padding: '20px' }} type='icon-wurenji-copy' />{`无人机飞行控制平台`}</div>
             </div>
           </Header>
           <Content style={{ padding: 50 }}>
             <div style={{ background: '#fff', padding: 20, minHeight: 500 }}>
               <div>
                 <Row type="flex" justify="space-around" align="middle">
-                  <div style={{ position: 'relative',left: '0', width: '90%', height: '500px', padding: '20px 0 20px 20px' }}>
+                  <div style={{ position: 'relative', left: '0', width: '90%', height: '500px', padding: '20px 0 20px 20px' }}>
                     <Map
                       events={this.amapEvents}
                       plugins={this.mapPlugins}
@@ -381,10 +382,11 @@ export default class Amap extends Component {
                       // visible={this.state.visible}
                       />)}
                       {this.state.path.map((item) => <Polyline
-                        path={item}
+                        path={item.route}
                         events={this.lineEvents}
                         showDir={true}
-                        strokeWeight={10}
+                        //strokeWeight={1500}
+                        style={{ strokeWeight: 7, strokeColor: this.state.color[item.key] }}
                       //visible={this.state.visible}
                       />)}
                       {/* <div style={{ left: '10%', width: '80%' }}></div> */}
@@ -422,9 +424,9 @@ export default class Amap extends Component {
                   </div>
                 </Row>
               </div>
-              <div style={{position: 'relative',left: '10%',width: '80%',}}>
-                <Tabs defaultActiveKey="1" 
-                style={{textAlign: 'center'}}
+              <div style={{ position: 'relative', left: '10%', width: '80%', }}>
+                <Tabs defaultActiveKey="1"
+                  style={{ textAlign: 'center' }}
                 >
                   <TabPane tab="飞行器信息控制面板" key="1">
                     <div>
@@ -447,23 +449,23 @@ export default class Amap extends Component {
                       {/* <font size='3'> 飞行高度控制面板 </font>
                       <hr /> */}
                       {/* <p> 设置飞行高度 : </p> */}
-                      {`飞行高度 : `} <Input style={{ width: 200 }} onChange={(e) => this.props.heightChange(e)} />{` m`}
+                      {`飞行高度 : `} <Input style={{ width: 200 }} onChange={(e) => this.props.heightChange(e)} />
                     </div>
                   </TabPane>
                   <TabPane tab="信息展示面板" key="3">
-                    <div style={{position: 'relative',left: '10%',width: '80%'}}>
+                    <div style={{ position: 'relative', left: '10%', width: '80%' }}>
                       <Descriptions bordered column={2}
                       // title="飞行器信息"
                       >
                         <Descriptions.Item label="飞行器数目">{this.props.flightInformation.num}</Descriptions.Item>
-                      {/* </Descriptions>
+                        {/* </Descriptions>
                       <Descriptions title="高度信息"> */}
                         <Descriptions.Item label="高度">{this.props.heightInformation.h}</Descriptions.Item>
-                      {/* </Descriptions>
+                        {/* </Descriptions>
                       <Descriptions title="地点信息"> */}
                         <Descriptions.Item label="起点">{this.props.pointInformation.start}</Descriptions.Item>
                         <Descriptions.Item label="经过点">{this.array2string(this.props.pointInformation.pass)}</Descriptions.Item>
-                      {/* </Descriptions>
+                        {/* </Descriptions>
                       <Descriptions title="路径信息"> */}
                         <Descriptions.Item label="路径">{this.array2string(this.props.routeInformation)}</Descriptions.Item>
                       </Descriptions>
@@ -488,7 +490,7 @@ export default class Amap extends Component {
                       <font size='3'> 路径信息</font>
                       <br />
                       <font size='3'> 路径：{this.array2string(this.props.routeInformation)}</font> */}
-                      {/* <InputNumber min={1} max={5} defaultValue={3} onChange={(value) => this.props.numChange(value)}/> */}
+                    {/* <InputNumber min={1} max={5} defaultValue={3} onChange={(value) => this.props.numChange(value)}/> */}
 
                     {/* </div> */}
                   </TabPane>
