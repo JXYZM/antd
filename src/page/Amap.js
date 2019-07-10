@@ -242,7 +242,8 @@ export default class Amap extends Component {
       },
       click: (e) => {
         // console.log("你点击了这个图标；调用参数为：");
-        // console.log(e.target.B.extData.key);
+        //console.log(e.target.B.extData.key);
+        e.target.setContent((e.target.B.extData.key).toString())
         if (this.state.choose_start === true) {
           // let temp = this.state.start.concat(e.target.B.extData.key)
           // this.setState({
@@ -379,6 +380,7 @@ export default class Amap extends Component {
                         extData={{ key: item.key }}
                         clickable
                         events={this.markerEvents}
+                        //topWhenClick={true}
                       // visible={this.state.visible}
                       />)}
                       {this.state.path.map((item) => <Polyline
