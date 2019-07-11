@@ -243,7 +243,18 @@ export default class Amap extends Component {
       click: (e) => {
         // console.log("你点击了这个图标；调用参数为：");
         //console.log(e.target.B.extData.key);
-        e.target.setContent((e.target.B.extData.key).toString())
+        //e.target.setContent((e.target.B.extData.key).toString())
+        if (this.state.choose_start === true) {
+          e.target.setOffset({ x: -10, y: -15 })
+          e.target.setIcon('//vdata.amap.com/icons/b18/1/2.png')
+          e.target.setTitle((e.target.B.extData.key).toString())
+        }
+        else if (this.state.choose_pass === true) {
+          e.target.setOffset({ x: -25, y: -60 })
+          e.target.setIcon('//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-red.png')
+          e.target.setTitle((e.target.B.extData.key).toString())
+        }
+        //console.log(e.target.getOffset())
         if (this.state.choose_start === true) {
           // let temp = this.state.start.concat(e.target.B.extData.key)
           // this.setState({
@@ -379,6 +390,7 @@ export default class Amap extends Component {
                         position={item.position}
                         extData={{ key: item.key }}
                         clickable
+                        title={(item.key).toString()}
                         events={this.markerEvents}
                       //topWhenClick={true}
                       // visible={this.state.visible}
