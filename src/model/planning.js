@@ -1,4 +1,4 @@
-import {prepareToPlan, getTheRoute} from "../services/method";
+import {prepareToPlan} from "../services/method";
 
 export default {
   namespace: 'planning',
@@ -22,13 +22,14 @@ export default {
       const { call, put } = sagaEffects;
       const response = yield call(prepareToPlan,payload);
       console.log(response)
+      yield put({ type: "updateRoute", payload: response });
     },
-    *get_the_route(_, sagaEffects){
-      const { call, put } = sagaEffects;
-      const datasets  = yield call(getTheRoute);
-      console.log(datasets)
-      yield put({ type: "updateRoute", payload: datasets });
-    }
+    // *get_the_route(_, sagaEffects){
+    //   const { call, put } = sagaEffects;
+    //   const datasets  = yield call(getTheRoute);
+    //   console.log(datasets)
+    //   yield put({ type: "updateRoute", payload: datasets });
+    // }
   },
   reducers: {
     set_flight_num(state, { payload: number }) {

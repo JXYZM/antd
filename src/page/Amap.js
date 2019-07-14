@@ -8,6 +8,9 @@ import { InputNumber, Input } from 'antd';
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1282563_kns8e1am00d.js',
 });
+const IconFont_ = Icon.createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1289406_de15s4r5mdv.js',
+})
 const { TabPane } = Tabs;
 const { Header, Content, Footer } = Layout;
 
@@ -71,12 +74,12 @@ const mapDispatchToProps = (dispatch) => {
       };
       dispatch(action);
     },
-    getRoute: (newState) => {
-      const action = {
-        type: `${namespace}/get_the_route`,
-      };
-      dispatch(action);
-    },
+    // getRoute: (newState) => {
+    //   const action = {
+    //     type: `${namespace}/get_the_route`,
+    //   };
+    //   dispatch(action);
+    // },
   };
 };
 
@@ -213,7 +216,7 @@ export default class Amap extends Component {
       choose_start: false,
       choose_pass: false,
       path: [],
-      color: ['yellow', 'brown', 'green', 'red', 'blue'],
+      color: ['black', 'brown', 'green', 'red', 'blue'],
     };
     this.amapEvents = {
       created: (mapInstance) => {
@@ -395,6 +398,11 @@ export default class Amap extends Component {
                       //topWhenClick={true}
                       // visible={this.state.visible}
                       />)}
+                        {/* <IconFont_ type='icon-wurenji' /> */}
+                      {/* </Marker>)} */}
+                      {/* <Marker position={{ longitude: 121, latitude: 35 }} >
+                        <IconFont_ type='icon-wurenji' />
+                      </Marker> */}
                       {this.state.path.map((item) => <Polyline
                         path={item.route}
                         events={this.lineEvents}
@@ -424,11 +432,11 @@ export default class Amap extends Component {
                           <a onClick={(event) => this.props.postState(newState)}><IconFont type="icon-lujingfenxi" /></a>
                         </Tooltip>
                       </List.Item>
-                      <List.Item>
+                      {/* <List.Item>
                         <Tooltip placement="right" title="获取结果">
                           <a onClick={(event) => this.props.getRoute(event)}><IconFont type="icon-shuaxin1" /></a>
                         </Tooltip>
-                      </List.Item>
+                      </List.Item> */}
                       <List.Item>
                         <Tooltip placement="right" title="显示路径">
                           <a onClick={(event) => this.display()}><IconFont type="icon-xianshi" /></a>
