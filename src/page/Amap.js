@@ -282,7 +282,7 @@ export default class Amap extends Component {
       // ... 支持绑定所有原生的高德 Marker 事件
     }
     this.mapPlugins = ['ToolBar'];
-    this.mapCenter = { longitude: 120, latitude: 35 };
+    this.mapCenter = { longitude: 118.957746, latitude: 32.115395 };
   }
 
   drawWhat(obj) {
