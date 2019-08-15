@@ -17,11 +17,13 @@ const { Header, Content, Footer } = Layout;
 const namespace = 'planning';
 
 const mapStateToProps = (state) => {
+  const algoInformation = state[namespace].algo;
   const flightInformation = state[namespace].flight;
   const heightInformation = state[namespace].height;
   const pointInformation = state[namespace].point;
   const routeInformation = state[namespace].route;
   return {
+    algoInformation,
     flightInformation,
     heightInformation,
     pointInformation,
@@ -36,6 +38,15 @@ const mapDispatchToProps = (dispatch) => {
     //     type: `${namespace}/addNewCard`,
     //     payload: newCard,
     //   };
+    algoChange: (e) => {
+      //console.log("asdf")
+      const action = {
+        type: `${namespace}/set_algo`,
+        payload: e.target.value,
+      };
+      //console.log(action.payload)
+      dispatch(action);
+    },
     numChangeFlight: (value) => {
       const action = {
         type: `${namespace}/set_flight_num`,
@@ -367,8 +378,8 @@ export default class Amap extends Component {
   // }
 
   render() {
-    const { flightInformation, heightInformation, pointInformation, routeInformation } = this.props
-    const newState = { flightInformation, heightInformation, pointInformation, routeInformation }
+    const { algoInformation, flightInformation, heightInformation, pointInformation, routeInformation } = this.props
+    const newState = { algoInformation, flightInformation, heightInformation, pointInformation, routeInformation }
     return (
       <div>
         <Layout className="layout">
@@ -417,13 +428,13 @@ export default class Amap extends Component {
                   <div style={{ position: 'relative', left: '0', width: '47px', }}>
                     <List size='small' bordered>
                       <List.Item>
-                        <Tooltip placement="right" title="设置起点">
+                        <Tooltip placement="right" title="设置订单起点">
                           <a onClick={() => { this.setStart() }}><IconFont style={{ size: '40' }} type="icon-start" /></a>
                           {/* <Button block onClick={() => { this.drawMarker() }}><IconFont type="icon-qidian1" /></Button> */}
                         </Tooltip>
                       </List.Item>
                       <List.Item>
-                        <Tooltip placement="right" title="设置经过点">
+                        <Tooltip placement="right" title="设置订单终点">
                           <a onClick={() => { this.setPass() }}><IconFont type="icon-dingwei" /></a>
                         </Tooltip>
                       </List.Item>
@@ -450,7 +461,15 @@ export default class Amap extends Component {
                 <Tabs defaultActiveKey="1"
                   style={{ textAlign: 'center' }}
                 >
-                  <TabPane tab="飞行器信息控制面板" key="1">
+                  <TabPane tab="算法选择面板" key="1">
+                    <div>
+                      {/* <font size='3'> 飞行高度控制面板 </font>
+                      <hr /> */}
+                      {/* <p> 设置飞行高度 : </p> */}
+                      {`算法选择 （1：规划算法 2：随机）`} <Input style={{ width: 200 }} onChange={(e) => this.props.algoChange(e)} />
+                    </div>
+                  </TabPane>
+                  <TabPane tab="飞行器信息控制面板" key="2">
                     <div>
                       {/* <font size='3'> 飞行器信息控制面板 </font>
                       <hr /> */}
@@ -466,7 +485,7 @@ export default class Amap extends Component {
                       </Form.Item></Form> */}
                     </div>
                   </TabPane>
-                  <TabPane tab="飞行高度控制面板" key="2">
+                  <TabPane tab="飞行高度控制面板" key="3">
                     <div>
                       {/* <font size='3'> 飞行高度控制面板 </font>
                       <hr /> */}
@@ -474,17 +493,18 @@ export default class Amap extends Component {
                       {`飞行高度 : `} <Input style={{ width: 200 }} onChange={(e) => this.props.heightChange(e)} />
                     </div>
                   </TabPane>
-                  <TabPane tab="信息展示面板" key="3">
+                  <TabPane tab="信息展示面板" key="4">
                     <div style={{ position: 'relative', left: '10%', width: '80%' }}>
                       <Descriptions
                         bordered
                         column={2}
                       // title="飞行器信息"
                       >
+                        <Descriptions.Item label="算法">{this.props.algoInformation.id}</Descriptions.Item>
                         <Descriptions.Item label="飞行器数目">{this.props.flightInformation.num}</Descriptions.Item>
                         <Descriptions.Item label="高度">{this.props.heightInformation.h}</Descriptions.Item>
-                        <Descriptions.Item label="起点">{this.props.pointInformation.start}</Descriptions.Item>
-                        <Descriptions.Item label="经过点"><div style={{ wordBreak: 'break-all' }}>{this.array2string(this.props.pointInformation.pass)}</div></Descriptions.Item>
+                        <Descriptions.Item label="订单起点">{this.props.pointInformation.start}</Descriptions.Item>
+                        <Descriptions.Item label="订单终点"><div style={{ wordBreak: 'break-all' }}>{this.array2string(this.props.pointInformation.pass)}</div></Descriptions.Item>
                         <Descriptions.Item label="路径"><div style={{ wordBreak: 'break-all' }}>{this.array2string(this.props.routeInformation)}</div></Descriptions.Item>
                       </Descriptions>
                     </div>
